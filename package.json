@@ -1,0 +1,9 @@
+{
+  "name":"apex-run-2-hyper-racing",
+  "version":"2.0.0",
+  "private":true,
+  "description":"Jeu de course 3D arcade en navigateur, multijoueur WebSocket, clavier et commandes tactiles.",
+  "scripts":{"start":"node server.js","dev":"node --watch server.js","test":"node smoke-test.js"},
+  "engines":{"node":">=18"},
+  "dependencies":{}
+}

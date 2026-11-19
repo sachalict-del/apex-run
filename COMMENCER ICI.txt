@@ -1,0 +1,36 @@
+=============================================================
+                  APEX RUN 2 — HYPER RACING
+=============================================================
+
+SUR WINDOWS
+1. Clic droit sur le ZIP > Extraire tout.
+2. Ouvrir le dossier apex-run-v2.
+3. Double-cliquer sur « LANCER LE JEU.bat ».
+4. Ton navigateur s'ouvre sur http://localhost:3000.
+
+La premiere fois, installe Node.js LTS depuis nodejs.org si besoin.
+Garde la fenetre noire du serveur ouverte pendant la partie.
+Une connexion Internet est necessaire pour charger Three.js.
+
+SUR TABLETTE
+Le PC et la tablette doivent etre sur le MEME reseau Wi-Fi.
+Sur le PC, appuie sur Windows+R, ecris cmd, puis ipconfig.
+Lis l'adresse IPv4 du PC, par exemple 192.168.1.25.
+Sur la tablette, ouvre http://192.168.1.25:3000
+(accepte si Windows demande l'autorisation reseau prive).
+Choisis le meme circuit et le meme code de salon.
+
+POUR JOUER SUR TON SITE INTERNET
+Lis le fichier INSTALLATION-SITE.md.
+Il faut un hebergeur qui accepte Node.js et les WebSockets.
+
+CONTROLES
+Z / W / FLECHE HAUT : accelerer
+Q / A / FLECHE GAUCHE : gauche
+D / FLECHE DROITE : droite
+S / FLECHE BAS : frein
+ESPACE : drift
+R : recommencer
+Tablette : boutons tactiles en mode paysage.
+
+6 voitures, 3 circuits avec sauts, turbos, barriers et multijoueur.
