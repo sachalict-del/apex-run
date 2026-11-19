@@ -1,0 +1,11 @@
+APEX RUN 3.2 — CORRECTIF DE CHARGEMENT ET DE COMMANDES
+
+1. Supprime sur GitHub les anciennes copies mal placées si nécessaire.
+2. Place à la racine du dépôt : package.json, Dockerfile, server.js, render.yaml et le dossier public/ avec TOUS ses fichiers.
+3. Il faut impérativement remplacer package.json (il installe maintenant three).
+4. Sur Render, lance Deploy latest commit et vérifie le statut Live.
+5. Ouvre l’URL du jeu dans un nouvel onglet privé pour ne pas utiliser l'ancienne version en cache.
+6. Appuie sur PRENDRE LE DÉPART, attends le GO, maintiens GAZ. Aucun accélérateur automatique.
+
+Si Render affiche « Fichier introuvable », vérifie que public/index.html est au bon emplacement.
+Si une alerte MOTEUR N’A PAS CHARGÉ apparaît, ouvre les logs du déploiement Render.
