@@ -1,0 +1,18 @@
+APEX RUN 3.1 — CORRECTIF DU BOUTON GAZ SUR TELEPHONE
+
+Sur GitHub (depot sachalict-del/apex-run) :
+1. Ouvrez le dossier public sur GitHub.
+2. Cliquez Add file > Upload files.
+3. Envoyez les fichiers game.js, index.html, sw.js de CE ZIP (dans son dossier public) pour remplacer les anciennes versions.
+4. Cliquez Commit changes.
+5. Le site Render redeploiera normalement automatiquement. Sinon Manual Deploy > Deploy latest commit.
+6. Fermez entierement le jeu sur le telephone, puis rechargez-le. Si la version ancienne persiste : supprimez l'application installee, ouvrez l'adresse Render dans Chrome/Safari et reinstallez-la.
+
+Sur le telephone :
+- Appuyez sur PRENDRE LE DEPART.
+- Attendez le compte a rebours 3, 2, 1, GO.
+- Maintenez le doigt sur GAZ. La mention GAZ ACTIVE doit apparaitre.
+- Utilisez gauche/droite avec l'autre pouce.
+- Il n'y a PAS d'acceleration automatique.
+
+Ce correctif renforce le fonctionnement multi-touch, mais n'a pas ete valide sur un vrai telephone.
