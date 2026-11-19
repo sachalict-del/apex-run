@@ -1,0 +1,15 @@
+{
+  "name": "apex-run-2-hyper-racing",
+  "version": "3.1.0",
+  "private": true,
+  "description": "Jeu 3D multijoueur six circuits, contrôles manuels optimisés téléphone",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node smoke-test.js && node pwa-test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {}
+}
