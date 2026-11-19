@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#07121c" />
+  <meta name="application-name" content="APEX RUN" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="APEX RUN" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+  <meta name="description" content="APEX RUN 2 : jeu de course 3D arcade multijoueur sur PC, mobile et tablette." />
+  <title>APEX RUN — Application multijoueur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css?v=3.0" />
+</head>
+<body>
+  <canvas id="game-canvas" aria-label="Circuit de course en trois dimensions"></canvas>
+  <div class="gradient-overlay"></div><div class="speed-lines" id="speed-lines"></div><div class="impact-overlay" id="impact-overlay"></div>
+  <header class="topbar">
+    <div class="brand"><div class="brand-symbol">A<span>↗</span></div><div><b>APEX<span>RUN</span><sup>2</sup></b><small>HYPER RACING / ONLINE</small></div></div>
+    <div class="top-actions">
+      <span class="online-info"><i id="connection-dot"></i><span id="connection-label">CONNEXION…</span></span>
+      <div class="balance">◆ <strong id="credits-top">0</strong> CR</div>
+      <button class="top-button" id="sound-button" aria-label="Activer ou couper le son">🔊</button>
+      <button class="top-button" id="multiplayer-button" aria-label="Afficher le multijoueur">🌐 <span>MULTI</span></button>
+      <button class="top-button" id="open-garage">▤ <span>GARAGE</span></button>
+    </div>
+  </header>
+
+  <div id="hud" class="hud hidden">
+    <div class="hud-left"><span class="hud-kicker">CHRONO</span><div id="timer" class="hud-timer">00:00.000</div><div id="best-time" class="hud-best">RECORD —</div></div>
+    <div class="hud-middle"><span id="checkpoint-text">CHECKPOINT 0 / 7</span><div id="checkpoint-track" class="checkpoint-track"></div><div class="flight-text" id="flight-text"></div></div>
+    <div class="speed-display"><span class="hud-kicker">VITESSE ACTUELLE</span><div><strong id="speed">000</strong><small>KM/H</small></div><div class="speed-meter"><i id="speed-fill"></i></div></div>
+  </div>
+
+  <aside class="room-panel hidden" id="room-panel">
+    <div class="room-head"><span>COURSE EN DIRECT</span><button id="close-multiplayer" aria-label="Fermer">✕</button></div>
+    <div class="room-current">SALON <strong id="room-label">PUBLIC</strong></div>
+    <div class="room-count"><span class="status-dot"></span><span id="player-count">1 / 12 PILOTES</span> <span id="room-track">ALPINE RUSH</span></div>
+    <label for="pilot-name">TON PSEUDO</label><input id="pilot-name" maxlength="18" autocomplete="nickname" placeholder="Ton pseudo" />
+    <label for="room-code">CODE DE TON SALON</label>
+    <div class="room-join"><input id="room-code" maxlength="12" placeholder="PUBLIC" value="PUBLIC"/><button id="join-room">GO</button></div>
+    <button class="room-share" id="share-room">↗ PARTAGER LE LIEN DU SALON</button>
+    <h3>🏁 RECORDS DU SALON</h3><div id="leaderboard" class="leaderboard"><p>Aucun temps enregistré.</p></div>
+    <p class="room-help">Tes amis doivent ouvrir le même lien et choisir le même circuit. Jusqu'à 12 joueurs par salon.</p>
+  </aside>
+
+  <main id="welcome" class="welcome-wrap">
+    <div class="welcome-content">
+      <div class="eyebrow"><i></i> VERSION MOBILE 3.0 <span>/</span> 6 CIRCUITS 3D</div>
+      <h1>DEFY<br/><em>GRAVITY.</em></h1>
+      <p>Six circuits géants. Des drifts. Des sauts. Des voitures à débloquer. Une seule règle : <strong>garder le pied au plancher.</strong></p>
+      <div class="welcome-buttons"><button class="main-button" id="start-button">▶ PRENDRE LE DÉPART <span>↗</span></button><button id="welcome-garage" class="ghost-button">▤ MES VOITURES</button><button id="install-app" class="ghost-button install-button" type="button">⬇ INSTALLER L’APPLI</button></div>
+      <div class="menu-control-hint">ZQSD / FLÈCHES : PILOTER <span>•</span> ESPACE : DRIFT <span>•</span> R : REPARTIR <span>•</span> TABLETTE : COMMANDES TACTILES</div>
+    </div>
+    <section class="track-selection">
+      <div class="section-title"><span>01 — CHOISIS TON CIRCUIT</span><small id="track-distance">—</small></div>
+      <div class="track-list" id="track-list"></div>
+    </section>
+  </main>
+
+  <div id="race-toast" class="race-toast" aria-live="polite"></div>
+  <div id="countdown" class="countdown" aria-live="assertive"></div>
+  <button id="reset-button" class="reset-button hidden" aria-label="Recommencer la course">↻</button>
+  <canvas id="minimap" class="minimap hidden" width="220" height="152" aria-label="Carte du circuit"></canvas>
+  <div id="mobile-hint" class="mobile-hint hidden">MAINTIENS GAZ POUR AVANCER</div>
+  <div id="rotate-tip" class="rotate-tip">↻ Pour mieux jouer, mets ta tablette en paysage.</div>
+
+  <div id="finish-dialog" class="dialog-backdrop hidden">
+    <div class="finish-dialog"><div class="eyebrow">🏁 ARRIVÉE / APEX RUN</div><h2 id="finish-heading">COURSE TERMINÉE</h2><div class="finish-bigtime" id="finish-time">00:00.000</div><p id="finish-info">—</p><div id="finish-reward" class="reward">+100 CR</div><div class="dialog-actions"><button class="main-button" id="retry-button">↻ REJOUER</button><button class="ghost-button" id="finish-garage">GARAGE</button><button class="ghost-button" id="finish-menu">CIRCUITS</button></div></div>
+  </div>
+
+  <div id="garage-dialog" class="dialog-backdrop hidden">
+    <div class="garage-dialog"><div class="garage-head"><div class="eyebrow">COLLECTION / 6 BOLIDES</div><button id="close-garage" aria-label="Fermer">✕</button></div>
+      <h2>TON GARAGE<span>.</span></h2><p>Des silhouettes inspirées de vraies sportives, recréées en 3D sans logos officiels. Termine des courses pour gagner des crédits.</p>
+      <div class="garage-balance">TES CRÉDITS <strong>◆ <span id="credits-garage">0</span></strong></div><div class="car-list" id="car-list"></div>
+      <div class="legal-notice">Véhicules fictifs inspirés de catégories de voitures existantes, non affiliés aux constructeurs.</div>
+    </div>
+  </div>
+
+  <section id="install-guide" class="install-guide hidden" role="dialog" aria-modal="true" aria-labelledby="install-title">
+    <div class="install-card">
+      <button id="close-install-guide" class="install-close" type="button" aria-label="Fermer">✕</button>
+      <div class="install-kicker">APEX RUN / APPLICATION</div>
+      <img src="/icons/icon-192.png" alt="Icône APEX RUN" width="74" height="74" />
+      <h2 id="install-title">LE JEU COMME UNE APPLI.</h2>
+      <p id="install-instructions">Ajoute APEX RUN à ton écran d’accueil pour jouer directement depuis son icône.</p>
+      <p class="install-note">Le jeu multijoueur nécessite une connexion Internet. L’installation est gratuite et ne passe pas par un store.</p>
+      <button class="main-button" id="got-install-guide" type="button">COMPRIS</button>
+    </div>
+  </section>
+  <footer class="footer-bar"><div><i></i> <strong id="selected-car-label">FALCON R</strong> <span>/</span> <span id="run-status">CHOISIS TON CIRCUIT</span></div><div class="desktop-hint">W / Z ACCÉLÉRER • A / Q / D TOURNER • ESPACE DRIFT • R RESET</div></footer>
+  <nav id="touch-controls" class="touch-controls" aria-label="Commandes tactiles de conduite">
+    <div class="touch-steer"><button data-key="left" aria-label="Tourner à gauche">◀</button><button data-key="right" aria-label="Tourner à droite">▶</button></div>
+    <div class="touch-action"><div class="touch-small-actions"><button data-key="drift" class="touch-drift">DRIFT</button><button data-key="brake" class="touch-brake">FREIN</button></div><button data-key="accel" class="touch-accel">▲<small>GAZ</small></button></div>
+  </nav>
+  <script src="/pwa.js?v=3.0" defer></script>
+  <script type="module" src="/game.js?v=3.0"></script>
+</body>
+</html>
